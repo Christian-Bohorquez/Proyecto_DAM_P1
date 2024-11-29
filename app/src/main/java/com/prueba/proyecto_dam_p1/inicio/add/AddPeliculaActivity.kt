@@ -2,6 +2,7 @@ package com.prueba.proyecto_dam_p1.inicio.add
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
@@ -17,6 +18,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.text.ParseException
 import java.util.Locale
+import android.Manifest
 
 class AddPeliculaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddPeliculaBinding
@@ -34,7 +36,7 @@ class AddPeliculaActivity : AppCompatActivity() {
 
         db = PeliculaDatabaseHelper(this)
         binding.btnImagen.setOnClickListener {
-            openGallery()
+            openGalleryWithPermissions()
         }
         binding.btnGuardar.setOnClickListener {
             saveMovie()
@@ -46,7 +48,20 @@ class AddPeliculaActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, IMAGE_PICK_CODE)
         }
-        private fun isDateValid(date: String): Boolean {
+
+    private fun openGalleryWithPermissions() {
+        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.Q) { // API 29 o inferior
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), IMAGE_PICK_CODE)
+            } else {
+                openGallery() // Permiso otorgado
+            }
+        } else {
+            openGallery() // API 30+ no requiere permisos adicionales
+        }
+    }
+
+    private fun isDateValid(date: String): Boolean {
             return try {
                 val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 sdf.isLenient = false
