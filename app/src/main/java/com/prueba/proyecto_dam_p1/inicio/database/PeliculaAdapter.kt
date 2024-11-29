@@ -2,6 +2,7 @@ package com.prueba.proyecto_dam_p1.inicio.database
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.LayoutInflater
@@ -45,15 +46,13 @@ class PeliculaAdapter (
         holder.titleTextView.text = pelicula.title
         holder.generoTextView.text = pelicula.genero
         holder.prioridadTextView.text= pelicula.prioridad
-        val imageFile = File(pelicula.imagen)
-        if (imageFile.exists()) {
-            Glide.with(holder.itemView.context)
-                .load(imageFile)
-                .placeholder(R.drawable.uno)
-                .error(R.drawable.borrar)
-                .into(holder.imagePreview)
+
+        val imageData = pelicula.imagen
+        if (imageData != null && imageData.isNotEmpty()) {
+            val bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
+            holder.imagePreview.setImageBitmap(bitmap)
         } else {
-            holder.imagePreview.setImageResource(R.drawable.borrar)
+            holder.imagePreview.setImageResource(R.drawable.borrar) // Imagen por defecto
         }
 
         // Acción de editar

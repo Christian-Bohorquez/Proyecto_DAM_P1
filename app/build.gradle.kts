@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.prueba.proyecto_dam_p1"
-        minSdk = 28
+        minSdk = 21
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
