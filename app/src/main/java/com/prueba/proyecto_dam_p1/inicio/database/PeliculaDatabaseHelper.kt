@@ -21,12 +21,17 @@ class PeliculaDatabaseHelper (context: Context): SQLiteOpenHelper(context, DATAB
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val createTableQuery = "CREATE TABLE $TABLE_NAME($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                " $COLUMN_TITLE TEXT, $COLUMN_GENERO TEXT," +
-                " $COLUMN_PRIORIDAD TEXT, $COLUMN_DESCRIPCION TEXT, $COLUMN_FECHA TEXT, $COLUMN_IMAGEN TEXT)"
-
+        val createTableQuery = "CREATE TABLE $TABLE_NAME(" +
+                "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "$COLUMN_TITLE TEXT, " +
+                "$COLUMN_GENERO TEXT, " +
+                "$COLUMN_PRIORIDAD TEXT, " +
+                "$COLUMN_DESCRIPCION TEXT, " +
+                "$COLUMN_FECHA TEXT, " +
+                "$COLUMN_IMAGEN BLOB)"
         db?.execSQL(createTableQuery)
     }
+
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         val dropTableQuery = "DROP TABLE IF EXISTS $TABLE_NAME"
@@ -34,9 +39,9 @@ class PeliculaDatabaseHelper (context: Context): SQLiteOpenHelper(context, DATAB
         onCreate(db)
 
     }
-    fun insertPelicula(pelicula: Pelicula){
+    fun insertPelicula(pelicula: Pelicula) {
         val db = writableDatabase
-        val values = ContentValues ().apply{
+        val values = ContentValues().apply {
             put(COLUMN_TITLE, pelicula.title)
             put(COLUMN_GENERO, pelicula.genero)
             put(COLUMN_PRIORIDAD, pelicula.prioridad)
@@ -50,6 +55,7 @@ class PeliculaDatabaseHelper (context: Context): SQLiteOpenHelper(context, DATAB
             db.close()
         }
     }
+
     fun deletePelicula(id: Int): Boolean {
         val db = writableDatabase
         val rowsDeleted = db.delete(TABLE_NAME, "$COLUMN_ID = ?", arrayOf(id.toString()))
@@ -82,12 +88,13 @@ class PeliculaDatabaseHelper (context: Context): SQLiteOpenHelper(context, DATAB
                 val prioridad = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PRIORIDAD))
                 val fecha = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_FECHA))
                 val descripcion = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPCION))
-                val imagen = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGEN))
+                val imagenBytes = cursor.getBlob(cursor.getColumnIndexOrThrow(COLUMN_IMAGEN)) // Lee la imagen como BLOB
 
-                val pelicula = Pelicula(id, title, genero, prioridad, fecha, imagen, descripcion)
+                val pelicula = Pelicula(id, title, descripcion, genero, prioridad, fecha, imagenBytes)
                 peliculaList.add(pelicula)
             } while (cursor.moveToNext())
         }
+
 
         cursor.close()
         return peliculaList

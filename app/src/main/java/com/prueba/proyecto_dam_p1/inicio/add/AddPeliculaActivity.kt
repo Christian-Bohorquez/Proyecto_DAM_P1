@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.prueba.proyecto_dam_p1.databinding.ActivityAddPeliculaBinding
 import com.prueba.proyecto_dam_p1.inicio.database.Pelicula
@@ -22,6 +23,12 @@ class AddPeliculaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddPeliculaBinding
     private lateinit var  db: PeliculaDatabaseHelper
     private var selectedImageUri: Uri? = null
+    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) {
+            selectedImageUri = uri
+            binding.imagePreview.setImageURI(uri)
+        }
+    }
 
     companion object {
         private const val IMAGE_PICK_CODE = 100
@@ -82,48 +89,61 @@ class AddPeliculaActivity : AppCompatActivity() {
             null
         }
     }
-
-
     private fun saveMovie() {
-            val title = binding.etTitle.text.toString()
-            val genero = binding.spGenero.selectedItem.toString()
-            val prioridad = binding.spPrioridad.selectedItem.toString()
-            val fecha = binding.etFecha.text.toString()
-            val descripcion = binding.etDescripcion.text.toString()
+        val title = binding.etTitle.text.toString()
+        val genero = binding.spGenero.selectedItem.toString()
+        val prioridad = binding.spPrioridad.selectedItem.toString()
+        val fecha = binding.etFecha.text.toString()
+        val descripcion = binding.etDescripcion.text.toString()
 
-            if (selectedImageUri == null) {
-                Toast.makeText(this, "Selecciona una imagen", Toast.LENGTH_SHORT).show()
-                return
+        if (selectedImageUri == null) {
+            Toast.makeText(this, "Selecciona una imagen", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Convertir la imagen seleccionada a un arreglo de bytes
+        val imageBytes = uriToByteArray(selectedImageUri!!)
+        if (imageBytes == null) {
+            Toast.makeText(this, "Error al procesar la imagen", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (!isDateValid(fecha)) {
+            Toast.makeText(
+                this,
+                "La fecha ingresada no es válida. Usa el formato dd/MM/yyyy.",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        // Crear el objeto Pelicula con el arreglo de bytes para la imagen
+        val pelicula = Pelicula(
+            id = 0,
+            title = title,
+            genero = genero,
+            prioridad = prioridad,
+            fecha = fecha,
+            descripcion = descripcion,
+            imagen = imageBytes
+        )
+
+        db.insertPelicula(pelicula)
+
+        Toast.makeText(this, "Película guardada con éxito", Toast.LENGTH_SHORT).show()
+        setResult(Activity.RESULT_OK, Intent())
+        finish()
+    }
+
+    // Método para convertir un Uri a ByteArray
+    private fun uriToByteArray(uri: Uri): ByteArray? {
+        return try {
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                inputStream.readBytes()
             }
-            val imagePath = saveImageToInternalStorage(selectedImageUri!!)
-            if (imagePath == null) {
-                Toast.makeText(this, "Error al guardar la imagen", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            if (!isDateValid(fecha)) {
-                Toast.makeText(
-                    this,
-                    "La fecha ingresada no es válida. Usa el formato dd/MM/yyyy.",
-                    Toast.LENGTH_SHORT
-                ).show()
-                return
-            }
-
-            val pelicula = Pelicula(
-                id = 0,
-                title = title,
-                genero = genero,
-                prioridad = prioridad,
-                fecha = fecha,
-                descripcion = descripcion,
-                imagen = imagePath
-            )
-
-            db.insertPelicula(pelicula)
-
-            Toast.makeText(this, "Película guardada con éxito", Toast.LENGTH_SHORT).show()
-            setResult(Activity.RESULT_OK, Intent())
-            finish()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
         }
     }
+}

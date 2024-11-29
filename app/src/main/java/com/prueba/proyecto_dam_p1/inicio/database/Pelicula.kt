@@ -7,5 +7,6 @@ data class Pelicula(
     val genero: String,
     val prioridad: String,
     val fecha: String,
-    val imagen: String
+    val imagen: ByteArray? // Ahora almacena datos binarios
 )
+
