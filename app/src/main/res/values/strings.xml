@@ -1,3 +1,34 @@
 <resources>
-    <string name="app_name">Proyecto_DAM_P1</string>
+    <string name="app_name">CineView</string>
+    <string name="filter_icon">Icono de filtro</string>
+
+
+    <string-array name="genero_array">
+        <item>Acción</item>
+        <item>Drama</item>
+        <item>Comedia</item>
+        <item>Fantasía</item>
+        <item>Thriller</item>
+        <item>Ciencia Ficción</item>
+        <item>Romance</item>
+        <item>Horror</item>
+        <item>Documental</item>
+        <item>Animación</item>
+
+    </string-array>
+
+
+    <string-array name="prioridad_array">
+        <item>Baja</item>
+        <item>Media</item>
+        <item>Alta</item>
+
+
+
+    </string-array>
+    <string-array name="filter_type_array">
+        <item>Género</item>
+        <item>Prioridad</item>
+    </string-array>
+
 </resources>

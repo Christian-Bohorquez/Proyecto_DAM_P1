@@ -9,6 +9,7 @@
 
     <color name="Fondo1">#F2A60D0D</color>
     <color name="Imagenfondo">#0B0A0A</color>
+    <color name="gray">#0B0A0A</color>
 
     <!-- cuadrado -->
     <color name="Uno">#991813</color>
