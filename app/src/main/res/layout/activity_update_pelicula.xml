@@ -8,12 +8,11 @@
     android:background="@color/white"
     android:padding="20dp"
     tools:context=".inicio.add.AddPeliculaActivity">
-
     <TextView
-        android:id="@+id/tvAddPage"
+        android:id="@+id/tvUpdatedPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Crear Pelicula"
+        android:text="Actualizar Pelicula"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -22,20 +21,20 @@
 
     <!-- Título para el campo de Título -->
     <TextView
-        android:id="@+id/tv_title_label"
+        android:id="@+id/tvUpdatedTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Insertar Título"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:layout_marginTop="20dp"
         android:textStyle="bold"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAddPage" />
+        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedPage" />
 
     <!-- Campo de Título -->
     <EditText
-        android:id="@+id/et_title"
+        android:id="@+id/etUpdatedTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bordered_background"
@@ -45,11 +44,11 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_label" />
+        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedTitle" />
 
     <!-- Título para el selector de Género -->
     <TextView
-        android:id="@+id/tv_genero_label"
+        android:id="@+id/tvUpdatedGenero"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -58,11 +57,11 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_title" />
+        app:layout_constraintTop_toBottomOf="@+id/etUpdatedTitle" />
 
     <!-- Selector de Género -->
     <Spinner
-        android:id="@+id/sp_genero"
+        android:id="@+id/spUpdatedGenero"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bordered_background"
@@ -71,11 +70,11 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_genero_label" />
+        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedGenero" />
 
     <!-- Título para el selector de Prioridad -->
     <TextView
-        android:id="@+id/tv_prioridad_label"
+        android:id="@+id/tvUpdatedPrioridad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -84,11 +83,11 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sp_genero" />
+        app:layout_constraintTop_toBottomOf="@+id/spUpdatedGenero" />
 
     <!-- Selector de Prioridad -->
     <Spinner
-        android:id="@+id/sp_prioridad"
+        android:id="@+id/spUpdatedPrioridad"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bordered_background"
@@ -97,11 +96,11 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_prioridad_label" />
+        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedPrioridad" />
 
     <!-- Título para el campo de Descripción -->
     <TextView
-        android:id="@+id/tv_descripcion_label"
+        android:id="@+id/tvUpdatedDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -110,11 +109,11 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sp_prioridad" />
+        app:layout_constraintTop_toBottomOf="@+id/spUpdatedPrioridad" />
 
     <!-- Campo de Descripción -->
     <EditText
-        android:id="@+id/et_descripcion"
+        android:id="@+id/etUpdatedDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bordered_background"
@@ -126,11 +125,11 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_descripcion_label" />
+        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedDescription" />
 
     <!-- Título para el campo de Fecha -->
     <TextView
-        android:id="@+id/tv_fecha_label"
+        android:id="@+id/tvUpdatedFecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -139,11 +138,11 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_descripcion" />
+        app:layout_constraintTop_toBottomOf="@+id/etUpdatedDescription" />
 
     <!-- Campo de Fecha -->
     <EditText
-        android:id="@+id/et_fecha"
+        android:id="@+id/etUpdatedFecha"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bordered_background"
@@ -153,11 +152,11 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_fecha_label" />
+        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedFecha" />
 
     <!-- Título para la carga de imagen -->
     <TextView
-        android:id="@+id/tv_imagen_label"
+        android:id="@+id/tvUpdatedImageLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -166,11 +165,11 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_fecha" />
+        app:layout_constraintTop_toBottomOf="@+id/etUpdatedFecha" />
 
     <!-- Carga de Imagen -->
     <ImageView
-        android:id="@+id/image_preview"
+        android:id="@+id/ivUpdatedImage"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/bordered_background"
@@ -178,10 +177,10 @@
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_imagen_label" />
+        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedImageLabel" />
 
     <Button
-        android:id="@+id/btn_imagen"
+        android:id="@+id/btnUpdatedImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -193,11 +192,11 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_preview" />
+        app:layout_constraintTop_toBottomOf="@+id/ivUpdatedImage" />
 
 
     <Button
-        android:id="@+id/btn_guardar"
+        android:id="@+id/btnUpdatedSave"
         android:layout_width="134dp"
         android:layout_height="44dp"
         android:layout_marginTop="16dp"
@@ -206,5 +205,5 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_imagen" />
+        app:layout_constraintTop_toBottomOf="@+id/btnUpdatedImage" />
 </androidx.constraintlayout.widget.ConstraintLayout>

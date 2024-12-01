@@ -23,14 +23,9 @@ import android.Manifest
 
 class AddPeliculaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddPeliculaBinding
-    private lateinit var  db: PeliculaDatabaseHelper
+    private lateinit var db: PeliculaDatabaseHelper
     private var selectedImageUri: Uri? = null
-    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        if (uri != null) {
-            selectedImageUri = uri
-            binding.imagePreview.setImageURI(uri)
-        }
-    }
+
 
     companion object {
         private const val IMAGE_PICK_CODE = 100
@@ -51,46 +46,50 @@ class AddPeliculaActivity : AppCompatActivity() {
     }
 
 
-        private fun openGallery() {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(intent, IMAGE_PICK_CODE)
-        }
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
 
     private fun openGalleryWithPermissions() {
-        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.Q) { // API 29 o inferior
+        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.Q) {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), IMAGE_PICK_CODE)
+                requestPermissions(
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    IMAGE_PICK_CODE
+                )
             } else {
-                openGallery() // Permiso otorgado
+                openGallery()
             }
         } else {
-            openGallery() // API 30+ no requiere permisos adicionales
+            openGallery()
         }
     }
 
     private fun isDateValid(date: String): Boolean {
-            return try {
-                val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                sdf.isLenient = false
-                sdf.parse(date)
-                true
-            } catch (e: ParseException) {
-                false
-            }
+        return try {
+            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            sdf.isLenient = false
+            sdf.parse(date)
+            true
+        } catch (e: ParseException) {
+            false
         }
+    }
 
-        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            super.onActivityResult(requestCode, resultCode, data)
-            if (requestCode == IMAGE_PICK_CODE && resultCode == Activity.RESULT_OK) {
-                val imageUri = data?.data
-                if (imageUri != null) {
-                    binding.imagePreview.setImageURI(imageUri)
-                    selectedImageUri = imageUri
-                } else {
-                    Toast.makeText(this, "No se seleccionó ninguna imagen", Toast.LENGTH_SHORT).show()
-                }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == IMAGE_PICK_CODE && resultCode == Activity.RESULT_OK) {
+            val imageUri = data?.data
+            if (imageUri != null) {
+                binding.imagePreview.setImageURI(imageUri)
+                selectedImageUri = imageUri
+            } else {
+                Toast.makeText(this, "No se seleccionó ninguna imagen", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
     private fun saveImageToInternalStorage(uri: Uri): String? {
         return try {
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
@@ -104,6 +103,7 @@ class AddPeliculaActivity : AppCompatActivity() {
             null
         }
     }
+
     private fun saveMovie() {
         val title = binding.etTitle.text.toString()
         val genero = binding.spGenero.selectedItem.toString()

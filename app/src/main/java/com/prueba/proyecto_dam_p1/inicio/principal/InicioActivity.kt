@@ -88,4 +88,21 @@ class InicioActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        refreshMovieList()
+    }
+
+    private fun refreshMovieList() {
+        peliculasList.clear()
+        peliculasList.addAll(db.getAllPelicula())
+        peliculaAdapter.notifyDataSetChanged()
+    }
+
+
+
+
+
+
 }

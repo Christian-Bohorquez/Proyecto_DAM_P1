@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.prueba.proyecto_dam_p1.R
 import com.prueba.proyecto_dam_p1.inicio.add.AddPeliculaActivity
 import com.prueba.proyecto_dam_p1.inicio.principal.InicioActivity
+import com.prueba.proyecto_dam_p1.inicio.update.UpdatePeliculaActivity
 import java.io.File
 
 class PeliculaAdapter (
@@ -30,7 +31,7 @@ class PeliculaAdapter (
         val titleTextView: TextView = itemView.findViewById(R.id.tv_title)
         val generoTextView: TextView = itemView.findViewById(R.id.tv_genero)
         val prioridadTextView: TextView = itemView.findViewById(R.id.tv_prioridad)
-        val updateButton: ImageView = itemView.findViewById(R.id.updateButtom)
+        val updateButton: ImageView = itemView.findViewById(R.id.btnUpdate)
         val deleteButton: ImageView = itemView.findViewById(R.id.deleteButtom)
         val imagePreview: ImageView = itemView.findViewById(R.id.image_preview)
 
@@ -57,9 +58,10 @@ class PeliculaAdapter (
 
         // Acción de editar
         holder.updateButton.setOnClickListener {
-            val intent = Intent(context, AddPeliculaActivity::class.java)
-            intent.putExtra("peliculaId", pelicula.id) // Pasa el ID de la película para editar
-            context.startActivity(intent)
+            val intent = Intent(context, UpdatePeliculaActivity::class.java).apply {
+                putExtra("pelicula_id", pelicula.id)
+            }
+            holder.itemView.context.startActivity(intent)
         }
 
         // Acción de eliminar
@@ -78,7 +80,9 @@ class PeliculaAdapter (
                         // Eliminar de la lista y notificar al adaptador
                         peliculas.removeAt(position)
                         notifyItemRemoved(position)
+                        refreshData(db.getAllPelicula())
                         Toast.makeText(context, "Película eliminada", Toast.LENGTH_SHORT).show()
+
                     } else {
                         Toast.makeText(context, "Error al eliminar", Toast.LENGTH_SHORT).show()
                     }
@@ -87,6 +91,11 @@ class PeliculaAdapter (
                 .show()
         }
 
+    }
+
+    fun refreshData(newPelicula: List<Pelicula>) {
+        peliculas = newPelicula.toMutableList()
+        notifyDataSetChanged()
     }
 
     // Acción de filtro

@@ -68,7 +68,7 @@
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="30dp"
-                android:id="@+id/updateButtom"
+                android:id="@+id/btnUpdate"
                 android:src="@drawable/editar"/>
 
             <ImageView
