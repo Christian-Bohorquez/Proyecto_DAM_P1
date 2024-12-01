@@ -35,12 +35,37 @@ class InicioActivity : AppCompatActivity() {
         binding.moviesGrid.adapter = peliculaAdapter
 
         setupFilterSpinners()
+        setupSearchView()
 
         // Configurar el botón para añadir nuevas películas
         binding.addButton.setOnClickListener {
             val intent = Intent(this, AddPeliculaActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun setupSearchView() {
+        binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    filterMoviesByTitle(it)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    filterMoviesByTitle(it)
+                }
+                return true
+            }
+        })
+    }
+    private fun filterMoviesByTitle(query: String) {
+        val filteredMovies = peliculasList.filter {
+            it.title.contains(query, ignoreCase = true) // Búsqueda no sensible a mayúsculas
+        }
+        peliculaAdapter.resetData(filteredMovies)
     }
 
     private fun setupFilterSpinners() {

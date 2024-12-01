@@ -50,10 +50,12 @@ class PeliculaAdapter (
 
         val imageData = pelicula.imagen
         if (imageData != null && imageData.isNotEmpty()) {
-            val bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
-            holder.imagePreview.setImageBitmap(bitmap)
+            Glide.with(context)
+                .load(imageData)
+                .placeholder(R.drawable.error_image)
+                .into(holder.imagePreview)
         } else {
-            holder.imagePreview.setImageResource(R.drawable.borrar) // Imagen por defecto
+            holder.imagePreview.setImageResource(R.drawable.error_image)
         }
 
         // Acción de editar

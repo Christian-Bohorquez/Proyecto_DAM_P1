@@ -67,13 +67,20 @@ class PeliculaDatabaseHelper(context: Context) : SQLiteOpenHelper(
         return rowsDeleted > 0
     }
 
-    fun getAllPelicula(genero: String? = null, prioridad: String? = null): List<Pelicula> {
+    fun getAllPelicula(
+        titulo: String? = null,
+        genero: String? = null,
+        prioridad: String? = null
+    ): List<Pelicula> {
         val peliculaList = mutableListOf<Pelicula>()
         val db = readableDatabase
-        var query = "SELECT * FROM $TABLE_NAME  WHERE 1=1"
+        var query = "SELECT * FROM $TABLE_NAME WHERE 1=1"
         val selectionArgs = mutableListOf<String>()
 
-
+        if (!titulo.isNullOrEmpty()) {
+            query += " AND $COLUMN_TITLE LIKE ?"
+            selectionArgs.add("%${titulo}%")
+        }
         if (!genero.isNullOrEmpty()) {
             query += " AND $COLUMN_GENERO = ?"
             selectionArgs.add(genero)
@@ -101,6 +108,7 @@ class PeliculaDatabaseHelper(context: Context) : SQLiteOpenHelper(
         db.close()
         return peliculaList
     }
+
 
     fun getPeliculaById(peliculaId: Int): Pelicula {
         val db = readableDatabase
