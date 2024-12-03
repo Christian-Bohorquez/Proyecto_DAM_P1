@@ -5,11 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.prueba.proyecto_dam_p1.R
 import com.prueba.proyecto_dam_p1.databinding.ActivityInicioBinding
 import com.prueba.proyecto_dam_p1.inicio.add.AddPeliculaActivity

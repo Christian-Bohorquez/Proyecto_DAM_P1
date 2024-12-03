@@ -2,9 +2,6 @@ package com.prueba.proyecto_dam_p1.inicio.database
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.prueba.proyecto_dam_p1.R
-import com.prueba.proyecto_dam_p1.inicio.add.AddPeliculaActivity
-import com.prueba.proyecto_dam_p1.inicio.principal.InicioActivity
 import com.prueba.proyecto_dam_p1.inicio.update.UpdatePeliculaActivity
-import java.io.File
 
 class PeliculaAdapter (
     private var peliculas: MutableList<Pelicula>,
@@ -47,6 +41,7 @@ class PeliculaAdapter (
         holder.titleTextView.text = pelicula.title
         holder.generoTextView.text = pelicula.genero
         holder.prioridadTextView.text= pelicula.prioridad
+
 
         val imageData = pelicula.imagen
         if (imageData != null && imageData.isNotEmpty()) {

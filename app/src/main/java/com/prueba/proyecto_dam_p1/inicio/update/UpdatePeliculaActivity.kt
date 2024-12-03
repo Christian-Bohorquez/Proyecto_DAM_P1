@@ -68,6 +68,15 @@ class UpdatePeliculaActivity : AppCompatActivity() {
 
         // Listener para guardar la película (opcionalidad de la imagen manejada)
         binding.btnUpdatedSave.setOnClickListener { updateMovie() }
+
+        binding.btnUpdatedCancel.setOnClickListener {
+            navegationToInicio()
+        }
+    }
+
+    private fun navegationToInicio() {
+        setResult(Activity.RESULT_OK, Intent())
+        finish()
     }
 
     private fun updateMovie() {

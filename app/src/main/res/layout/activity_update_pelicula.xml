@@ -5,205 +5,271 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:padding="20dp"
     tools:context=".inicio.add.AddPeliculaActivity">
+
     <TextView
         android:id="@+id/tvUpdatedPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/md_theme_onSurface_highContrast"
         android:text="Actualizar Pelicula"
-        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Título para el campo de Título -->
-    <TextView
-        android:id="@+id/tvUpdatedTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Insertar Título"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedPage" />
-
-    <!-- Campo de Título -->
-    <EditText
-        android:id="@+id/etUpdatedTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bordered_background"
-        android:hint="Título"
-        android:inputType="text"
-        android:padding="8dp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedTitle" />
-
-    <!-- Título para el selector de Género -->
-    <TextView
-        android:id="@+id/tvUpdatedGenero"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Escoger Categoría"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUpdatedTitle" />
-
-    <!-- Selector de Género -->
-    <Spinner
-        android:id="@+id/spUpdatedGenero"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bordered_background"
-        android:entries="@array/genero_array"
-        android:padding="10dp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedGenero" />
-
-    <!-- Título para el selector de Prioridad -->
-    <TextView
-        android:id="@+id/tvUpdatedPrioridad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Escoger Prioridad"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spUpdatedGenero" />
-
-    <!-- Selector de Prioridad -->
-    <Spinner
-        android:id="@+id/spUpdatedPrioridad"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bordered_background"
-        android:entries="@array/prioridad_array"
-        android:padding="10dp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedPrioridad" />
-
-    <!-- Título para el campo de Descripción -->
-    <TextView
-        android:id="@+id/tvUpdatedDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Descripción"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spUpdatedPrioridad" />
-
-    <!-- Campo de Descripción -->
-    <EditText
-        android:id="@+id/etUpdatedDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bordered_background"
-        android:gravity="top"
-        android:hint="Descripción"
-        android:inputType="textMultiLine"
-        android:lines="3"
-        android:padding="8dp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedDescription" />
-
-    <!-- Título para el campo de Fecha -->
-    <TextView
-        android:id="@+id/tvUpdatedFecha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Fecha"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUpdatedDescription" />
-
-    <!-- Campo de Fecha -->
-    <EditText
-        android:id="@+id/etUpdatedFecha"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bordered_background"
-        android:hint="Fecha (dd/mm/yyyy)"
-        android:inputType="date"
-        android:padding="8dp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedFecha" />
-
-    <!-- Título para la carga de imagen -->
-    <TextView
-        android:id="@+id/tvUpdatedImageLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Cargar Imagen"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUpdatedFecha" />
-
-    <!-- Carga de Imagen -->
-    <ImageView
-        android:id="@+id/ivUpdatedImage"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/bordered_background"
-        android:contentDescription="Vista previa de la imagen"
-        android:scaleType="centerCrop"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedImageLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedPage">
 
-    <Button
-        android:id="@+id/btnUpdatedImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/black"
-        android:padding="8dp"
-        android:text="Cargar Imagen"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivUpdatedImage" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clScrollUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="8dp">
+            <!-- Configuracion para el campo de Título -->
+            <TextView
+                android:id="@+id/tvUpdatedTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Insertar Título"
+                android:textColor="@color/md_theme_onSurface"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/clScrollUpdate" />
 
+            <EditText
+                android:id="@+id/etUpdatedTitle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bordered_background"
+                android:hint="Título"
+                android:inputType="text"
+                android:minWidth="48dp"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvUpdatedTitle" />
 
-    <Button
-        android:id="@+id/btnUpdatedSave"
-        android:layout_width="134dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/black"
-        android:text="Guardar"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnUpdatedImage" />
+            <!-- Configuracion para el spinner de genero -->
+            <TextView
+                android:id="@+id/tvUpdatedGenero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Escoger Categoría"
+                android:textColor="@color/md_theme_onSurface"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etUpdatedTitle" />
+
+            <Spinner
+                android:id="@+id/spUpdatedGenero"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bordered_background"
+                android:entries="@array/genero_array"
+                android:minWidth="48dp"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvUpdatedGenero" />
+
+            <!-- Configuracion para el spinner de prioridad -->
+            <TextView
+                android:id="@+id/tvUpdatedPrioridad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Escoger Prioridad"
+                android:textColor="@color/md_theme_onSurface"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spUpdatedGenero" />
+
+            <Spinner
+                android:id="@+id/spUpdatedPrioridad"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bordered_background"
+                android:entries="@array/prioridad_array"
+                android:minWidth="48dp"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvUpdatedPrioridad" />
+
+            <!-- Configuracion para el campo de descripcion -->
+            <TextView
+                android:id="@+id/tvUpdatedDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Descripción"
+                android:textColor="@color/md_theme_onSurface"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spUpdatedPrioridad" />
+
+            <EditText
+                android:id="@+id/etUpdatedDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bordered_background"
+                android:gravity="top"
+                android:hint="Descripción"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvUpdatedDescription" />
+
+            <!-- Configuracion para el campo de fecha -->
+            <TextView
+                android:id="@+id/tvUpdatedFecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Fecha"
+                android:textColor="@color/md_theme_onSurface"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etUpdatedDescription" />
+
+            <EditText
+                android:id="@+id/etUpdatedFecha"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bordered_background"
+                android:hint="Año (opcional)"
+                android:inputType="number"
+                android:minWidth="48dp"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvUpdatedFecha" />
+
+            <!-- Configuracion para la imagen -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/llImagenUpdated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/md_theme_surface"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etUpdatedFecha">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvUpdatedImageLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cargar Imagen"
+                        android:textColor="@color/md_theme_onSurface"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etUpdatedFecha" />
+
+                    <!-- Carga de Imagen -->
+                    <ImageView
+                        android:id="@+id/ivUpdatedImage"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bordered_background"
+                        android:contentDescription="Vista previa de la imagen"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvUpdatedImageLabel" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="25dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/btnUpdatedImage"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/redondear_button"
+                        android:contentDescription="Abrir galería de imágenes"
+                        android:padding="8dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/baseline_image_24"
+                        android:textColor="@color/md_theme_onSecondary" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <!-- Botones de actualizar y cancelar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llImagenUpdated">
+
+                <Button
+                    android:id="@+id/btnUpdatedSave"
+                    android:layout_width="150dp"
+                    android:layout_height="55dp"
+                    android:backgroundTint="@color/md_theme_primary"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:text="Actualizar"
+                    android:textColor="@color/md_theme_onPrimary"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnUpdatedCancel"
+                    android:layout_width="150dp"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="24dp"
+                    android:backgroundTint="@color/md_theme_secondary"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:text="Canclear"
+                    android:textColor="@color/md_theme_onSecondary"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

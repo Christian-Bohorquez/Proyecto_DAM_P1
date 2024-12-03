@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:elevation="4dp"
-    android:backgroundTint="@color/white"
     app:cardCornerRadius="8dp"
     app:cardUseCompatPadding="true">
 
@@ -14,7 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/md_theme_surfaceContainer"
         android:padding="16dp">
+
         <ImageView
             android:id="@+id/image_preview"
             android:layout_width="100dp"
@@ -27,41 +28,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            >
+            android:layout_marginTop="8dp">
 
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Título"
-                android:textColor="@android:color/black"
+                android:textColor="@color/md_theme_onSurface"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-            
+
         </RelativeLayout>
+
         <TextView
             android:id="@+id/tv_genero"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:text="Género"
-            android:textColor="@color/black"
+            android:textColor="@color/md_theme_onSurfaceVariant"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_prioridad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Prioridad"
-            android:textColor="@color/opcion1"
+            android:textColor="@color/md_theme_onTertiaryContainer"
             android:textSize="14sp" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="8dp"
-            >
+            android:padding="6dp">
 
             <ImageView
                 android:layout_width="24dp"
@@ -69,14 +72,14 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="30dp"
                 android:id="@+id/btnUpdate"
-                android:src="@drawable/editar"/>
+                android:src="@drawable/editar" />
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
                 android:id="@+id/deleteButtom"
-                android:src="@drawable/borrar"/>
+                android:src="@drawable/borrar" />
         </RelativeLayout>
 
 

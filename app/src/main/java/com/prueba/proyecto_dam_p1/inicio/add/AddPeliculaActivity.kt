@@ -20,6 +20,7 @@ import java.io.IOException
 import java.text.ParseException
 import java.util.Locale
 import android.Manifest
+import com.prueba.proyecto_dam_p1.inicio.principal.InicioActivity
 
 class AddPeliculaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddPeliculaBinding
@@ -43,6 +44,14 @@ class AddPeliculaActivity : AppCompatActivity() {
         binding.btnGuardar.setOnClickListener {
             saveMovie()
         }
+        binding.btnCancelar.setOnClickListener {
+            navegationToInicio()
+        }
+    }
+
+    private fun navegationToInicio() {
+        setResult(Activity.RESULT_OK, Intent())
+        finish()
     }
 
 
@@ -66,16 +75,11 @@ class AddPeliculaActivity : AppCompatActivity() {
         }
     }
 
-    private fun isDateValid(date: String): Boolean {
-        return try {
-            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            sdf.isLenient = false
-            sdf.parse(date)
-            true
-        } catch (e: ParseException) {
-            false
-        }
+    private fun isYearValid(year: String): Boolean {
+        if (year.isEmpty()) return true // Campo opcional
+        return year.matches(Regex("^\\d{4}\$")) // Valida que sea un año de 4 dígitos
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -90,6 +94,7 @@ class AddPeliculaActivity : AppCompatActivity() {
         }
     }
 
+    //Esta funcion fue reemplazada, pero no se borrara por si se cambia el meto de guardar la imagen
     private fun saveImageToInternalStorage(uri: Uri): String? {
         return try {
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
@@ -123,12 +128,8 @@ class AddPeliculaActivity : AppCompatActivity() {
             return
         }
 
-        if (!isDateValid(fecha)) {
-            Toast.makeText(
-                this,
-                "La fecha ingresada no es válida. Usa el formato dd/MM/yyyy.",
-                Toast.LENGTH_SHORT
-            ).show()
+        if (!isYearValid(fecha)) {
+            Toast.makeText(this, "El año ingresado no es válido. Usa el formato yyyy.", Toast.LENGTH_SHORT).show()
             return
         }
 
