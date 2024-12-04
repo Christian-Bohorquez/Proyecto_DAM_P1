@@ -1,165 +1,165 @@
 package com.prueba.proyecto_dam_p1.inicio.add
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.icu.text.SimpleDateFormat
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.prueba.proyecto_dam_p1.R
 import com.prueba.proyecto_dam_p1.databinding.ActivityAddPeliculaBinding
 import com.prueba.proyecto_dam_p1.inicio.database.Pelicula
 import com.prueba.proyecto_dam_p1.inicio.database.PeliculaDatabaseHelper
-import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
-import java.text.ParseException
-import java.util.Locale
-import android.Manifest
-import com.prueba.proyecto_dam_p1.inicio.principal.InicioActivity
 
 class AddPeliculaActivity : AppCompatActivity() {
+
+    // View Binding y Helpers
     private lateinit var binding: ActivityAddPeliculaBinding
     private lateinit var db: PeliculaDatabaseHelper
     private var selectedImageUri: Uri? = null
 
-
+    // Constantes
     companion object {
         private const val IMAGE_PICK_CODE = 100
     }
 
+    // Configura la actividad principal, inicializa la base de datos y listeners
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddPeliculaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Inicialización de la base de datos
         db = PeliculaDatabaseHelper(this)
-        binding.btnImagen.setOnClickListener {
-            openGalleryWithPermissions()
-        }
-        binding.btnGuardar.setOnClickListener {
-            saveMovie()
-        }
-        binding.btnCancelar.setOnClickListener {
-            navegationToInicio()
-        }
+
+        // Configuración de listeners
+        setupListeners()
     }
 
-    private fun navegationToInicio() {
+    // Configura los eventos para botones de la interfaz
+    private fun setupListeners() {
+        binding.btnImagen.setOnClickListener { openGalleryWithPermissions() }
+        binding.btnGuardar.setOnClickListener { saveMovie() }
+        binding.btnCancelar.setOnClickListener { navigateToInicio() }
+    }
+
+    // Cierra la actividad y regresa al inicio
+    private fun navigateToInicio() {
         setResult(Activity.RESULT_OK, Intent())
         finish()
     }
 
-
-    private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, IMAGE_PICK_CODE)
-    }
-
+    // Maneja los permisos y abre la galería para seleccionar una imagen
     private fun openGalleryWithPermissions() {
-        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.Q) {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                    IMAGE_PICK_CODE
-                )
-            } else {
-                openGallery()
-            }
+        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.Q &&
+            checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), IMAGE_PICK_CODE)
         } else {
             openGallery()
         }
     }
 
+    // Abre la galería para seleccionar una imagen
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
+
+    // Valida que el año sea válido o esté vacío
     private fun isYearValid(year: String): Boolean {
-        if (year.isEmpty()) return true // Campo opcional
-        return year.matches(Regex("^\\d{4}\$")) // Valida que sea un año de 4 dígitos
+        return year.isEmpty() || year.matches(Regex("^\\d{4}\$"))
     }
 
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMAGE_PICK_CODE && resultCode == Activity.RESULT_OK) {
-            val imageUri = data?.data
-            if (imageUri != null) {
-                binding.imagePreview.setImageURI(imageUri)
-                selectedImageUri = imageUri
-            } else {
-                Toast.makeText(this, "No se seleccionó ninguna imagen", Toast.LENGTH_SHORT).show()
-            }
-        }
+    // Verifica que el título no esté vacío o sea solo espacios en blanco
+    private fun isTitleValid(title: String): Boolean {
+        return title.isNotBlank()
     }
 
-    //Esta funcion fue reemplazada, pero no se borrara por si se cambia el meto de guardar la imagen
-    private fun saveImageToInternalStorage(uri: Uri): String? {
-        return try {
-            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
-            val file = File(filesDir, "${System.currentTimeMillis()}.jpg")
-            val outputStream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-            outputStream.close()
-            file.absolutePath
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
-    }
-
+    // Guarda la información de la película en la base de datos
     private fun saveMovie() {
-        val title = binding.etTitle.text.toString()
+        val title = binding.etTitle.text.toString().trim()
         val genero = binding.spGenero.selectedItem.toString()
         val prioridad = binding.spPrioridad.selectedItem.toString()
         val fecha = binding.etFecha.text.toString()
         val descripcion = binding.etDescripcion.text.toString()
 
-        if (selectedImageUri == null) {
-            Toast.makeText(this, "Selecciona una imagen", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        // Convertir la imagen seleccionada a un arreglo de bytes
-        val imageBytes = uriToByteArray(selectedImageUri!!)
-        if (imageBytes == null) {
-            Toast.makeText(this, "Error al procesar la imagen", Toast.LENGTH_SHORT).show()
+        // Validaciones
+        if (!isTitleValid(title)) {
+            showToast("El título es obligatorio")
             return
         }
 
         if (!isYearValid(fecha)) {
-            Toast.makeText(this, "El año ingresado no es válido. Usa el formato yyyy.", Toast.LENGTH_SHORT).show()
+            showToast("Si proporciona una fecha, debe ser un año válido (formato: yyyy)")
             return
         }
 
-        // Crear el objeto Pelicula con el arreglo de bytes para la imagen
+        val imageBytes = when {
+            selectedImageUri != null -> uriToByteArray(selectedImageUri!!) ?: getDefaultImageBytes()
+            else -> getDefaultImageBytes()
+        }
+
+        // Crear y guardar la película
         val pelicula = Pelicula(
             id = 0,
             title = title,
             genero = genero,
             prioridad = prioridad,
-            fecha = fecha,
+            fecha = if (fecha.isEmpty()) null else fecha,
             descripcion = descripcion,
             imagen = imageBytes
         )
 
         db.insertPelicula(pelicula)
-
-        Toast.makeText(this, "Película guardada con éxito", Toast.LENGTH_SHORT).show()
-        setResult(Activity.RESULT_OK, Intent())
-        finish()
+        showToast("Película guardada con éxito")
+        navigateToInicio()
     }
 
-    // Método para convertir un Uri a ByteArray
+    // Convierte una URI de imagen a un arreglo de bytes
     private fun uriToByteArray(uri: Uri): ByteArray? {
         return try {
-            contentResolver.openInputStream(uri)?.use { inputStream ->
-                inputStream.readBytes()
-            }
+            contentResolver.openInputStream(uri)?.use { it.readBytes() }
         } catch (e: IOException) {
             e.printStackTrace()
-            null
+            getErrorImageBytes()
         }
+    }
+
+    // Obtiene la imagen predeterminada como un arreglo de bytes
+    private fun getDefaultImageBytes(): ByteArray {
+        return getDrawableBytes(R.drawable.popcorn)
+    }
+
+    // Obtiene la imagen de error como un arreglo de bytes
+    private fun getErrorImageBytes(): ByteArray {
+        return getDrawableBytes(R.drawable.error_image)
+    }
+
+    // Convierte un drawable en un arreglo de bytes
+    private fun getDrawableBytes(drawableId: Int): ByteArray {
+        return resources.openRawResource(drawableId).use { it.readBytes() }
+    }
+
+    // Maneja el resultado de la selección de imagen en la galería
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == IMAGE_PICK_CODE && resultCode == Activity.RESULT_OK) {
+            data?.data?.let {
+                binding.imagePreview.setImageURI(it)
+                selectedImageUri = it
+            } ?: showToast("No se seleccionó ninguna imagen")
+        }
+    }
+
+    // Muestra un mensaje en pantalla como un Toast
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

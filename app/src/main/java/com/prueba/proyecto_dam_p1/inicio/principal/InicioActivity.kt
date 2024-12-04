@@ -15,6 +15,8 @@ import com.prueba.proyecto_dam_p1.inicio.database.PeliculaAdapter
 import com.prueba.proyecto_dam_p1.inicio.database.PeliculaDatabaseHelper
 
 class InicioActivity : AppCompatActivity() {
+
+    // Declaración de variables para el enlace de vistas, la base de datos, el adaptador y la lista de películas
     private lateinit var binding: ActivityInicioBinding
     private lateinit var db: PeliculaDatabaseHelper
     private lateinit var peliculaAdapter: PeliculaAdapter
@@ -22,109 +24,148 @@ class InicioActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Inicializa el enlace de vistas con el diseño XML correspondiente
         binding = ActivityInicioBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Configuración inicial del Activity
+        initializeDatabase()
+        initializeRecyclerView()
+        setupListeners()
+    }
+
+    // Inicializa la base de datos y obtiene todas las películas guardadas
+    private fun initializeDatabase() {
         db = PeliculaDatabaseHelper(this)
         peliculasList = db.getAllPelicula().toMutableList()
+    }
+
+    // Configura el RecyclerView con un GridLayoutManager y el adaptador de películas
+    private fun initializeRecyclerView() {
         peliculaAdapter = PeliculaAdapter(peliculasList, this)
-
-        binding.moviesGrid.layoutManager = GridLayoutManager(this, 2)
-        binding.moviesGrid.adapter = peliculaAdapter
-
-        setupFilterSpinners()
-        setupSearchView()
-
-        // Configurar el botón para añadir nuevas películas
-        binding.addButton.setOnClickListener {
-            val intent = Intent(this, AddPeliculaActivity::class.java)
-            startActivity(intent)
+        binding.moviesGrid.apply {
+            layoutManager = GridLayoutManager(this@InicioActivity, 2) // Diseño de cuadrícula con 2 columnas
+            adapter = peliculaAdapter
         }
     }
 
+    // Configura los listeners para los elementos interactivos
+    private fun setupListeners() {
+        setupSearchView()
+        setupFilterSpinners()
+        setupAddButton()
+    }
+
+    // Configura el SearchView para realizar búsquedas dinámicas en tiempo real
     private fun setupSearchView() {
         binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let {
-                    filterMoviesByTitle(it)
-                }
+                query?.let { filterMoviesByTitle(it) } // Filtra las películas según el título
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                newText?.let {
-                    filterMoviesByTitle(it)
-                }
+                newText?.let { filterMoviesByTitle(it) } // Filtra mientras el texto cambia
                 return true
             }
         })
     }
+
+    // Filtra las películas de la lista según el título proporcionado
     private fun filterMoviesByTitle(query: String) {
         val filteredMovies = peliculasList.filter {
-            it.title.contains(query, ignoreCase = true) // Búsqueda no sensible a mayúsculas
+            it.title.contains(query, ignoreCase = true)
         }
-        peliculaAdapter.resetData(filteredMovies)
+        peliculaAdapter.resetData(filteredMovies) // Actualiza los datos en el adaptador
     }
 
+    // Configura los Spinners para aplicar filtros a las películas
     private fun setupFilterSpinners() {
+        setupFilterTypeSpinner()
+        setupFilterOptionsSpinner()
+    }
 
+    // Configura el Spinner para seleccionar el tipo de filtro
+    private fun setupFilterTypeSpinner() {
         binding.filterTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedType = parent?.getItemAtPosition(position).toString()
-
-                val optionsArray = when (selectedType) {
-                    "Género" -> R.array.genero_array
-                    "Prioridad" -> R.array.prioridad_array
-                    else -> null
-                }
-
-                optionsArray?.let {
-                    ArrayAdapter.createFromResource(
-                        this@InicioActivity,
-                        it,
-                        android.R.layout.simple_spinner_item
-                    ).also { adapter ->
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        binding.filterOptionsSpinner.adapter = adapter
-                    }
-                }
+                updateFilterOptionsSpinner(selectedType) // Actualiza las opciones según el tipo
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+    }
 
+    // Actualiza las opciones del segundo Spinner según el tipo de filtro seleccionado
+    private fun updateFilterOptionsSpinner(selectedType: String) {
+        val optionsArray = when (selectedType) {
+            "Género" -> R.array.genero_array // Opciones para género
+            "Prioridad" -> R.array.prioridad_array // Opciones para prioridad
+            else -> null
+        }
 
+        // Establece las opciones en el Spinner
+        optionsArray?.let {
+            ArrayAdapter.createFromResource(
+                this,
+                it,
+                android.R.layout.simple_spinner_item
+            ).also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                binding.filterOptionsSpinner.adapter = adapter
+            }
+        }
+    }
+
+    // Configura el Spinner para seleccionar una opción de filtro específica
+    private fun setupFilterOptionsSpinner() {
         binding.filterOptionsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedOption = parent?.getItemAtPosition(position).toString()
-                val selectedType = binding.filterTypeSpinner.selectedItem.toString()
-
-                val filteredMovies = when (selectedType) {
-                    "Género" -> db.getAllPelicula(genero = selectedOption)
-                    "Prioridad" -> db.getAllPelicula(prioridad = selectedOption)
-                    else -> peliculasList
-                }
-
-                peliculaAdapter.resetData(filteredMovies)
+                applyFilter(selectedOption) // Aplica el filtro seleccionado
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
+    // Aplica el filtro seleccionado a las películas según el tipo y la opción
+    private fun applyFilter(selectedOption: String) {
+        val selectedType = binding.filterTypeSpinner.selectedItem.toString()
+        val filteredMovies = when (selectedType) {
+            "Género" -> db.getAllPelicula(genero = selectedOption)
+            "Prioridad" -> db.getAllPelicula(prioridad = selectedOption)
+            else -> peliculasList
+        }
+        peliculaAdapter.resetData(filteredMovies) // Actualiza el adaptador con los datos filtrados
+    }
+
+    // Configura el botón para agregar una nueva película
+    private fun setupAddButton() {
+        binding.addButton.setOnClickListener {
+            navigateToAddPeliculaActivity() // Navega a la actividad para agregar una película
+        }
+    }
+
+    // Navega a la actividad AddPeliculaActivity
+    private fun navigateToAddPeliculaActivity() {
+        val intent = Intent(this, AddPeliculaActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Método llamado cuando la actividad se reanuda
     override fun onResume() {
         super.onResume()
-        refreshMovieList()
+        refreshMovieList() // Refresca la lista de películas
     }
 
+    // Refresca la lista de películas al obtener los datos más recientes de la base de datos
     private fun refreshMovieList() {
-        peliculasList.clear()
-        peliculasList.addAll(db.getAllPelicula())
-        peliculaAdapter.notifyDataSetChanged()
+        peliculasList.apply {
+            clear()
+            addAll(db.getAllPelicula()) // Agrega las películas actualizadas
+        }
+        peliculaAdapter.notifyDataSetChanged() // Notifica los cambios al adaptador
     }
-
-
-
-
-
-
 }
