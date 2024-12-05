@@ -79,10 +79,8 @@ class PeliculaAdapter(
         holder.updateButton.setOnClickListener {
             val intent = Intent(context, UpdatePeliculaActivity::class.java).apply {
                 putExtra("pelicula_id", pelicula.id)
-
             }
             context.startActivity(intent)
-
         }
     }
 

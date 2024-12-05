@@ -20,5 +20,6 @@ class FirstActivity : AppCompatActivity() {
     private fun navegarToInicioApp() {
         val intent = Intent(this, InicioActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }

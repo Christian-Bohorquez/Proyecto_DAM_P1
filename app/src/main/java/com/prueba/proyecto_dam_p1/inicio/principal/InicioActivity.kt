@@ -22,6 +22,10 @@ class InicioActivity : AppCompatActivity() {
     private lateinit var peliculaAdapter: PeliculaAdapter
     private lateinit var peliculasList: MutableList<Pelicula>
 
+    private var currentFilterType: String? = null
+    private var currentFilterOption: String? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Inicializa el enlace de vistas con el diseño XML correspondiente
@@ -32,6 +36,7 @@ class InicioActivity : AppCompatActivity() {
         initializeDatabase()
         initializeRecyclerView()
         setupListeners()
+
     }
 
     // Inicializa la base de datos y obtiene todas las películas guardadas
@@ -39,6 +44,8 @@ class InicioActivity : AppCompatActivity() {
         db = PeliculaDatabaseHelper(this)
         peliculasList = db.getAllPelicula().toMutableList()
     }
+
+
 
     // Configura el RecyclerView con un GridLayoutManager y el adaptador de películas
     private fun initializeRecyclerView() {
@@ -133,6 +140,10 @@ class InicioActivity : AppCompatActivity() {
     // Aplica el filtro seleccionado a las películas según el tipo y la opción
     private fun applyFilter(selectedOption: String) {
         val selectedType = binding.filterTypeSpinner.selectedItem.toString()
+
+        currentFilterType = selectedType
+        currentFilterOption = selectedOption
+
         val filteredMovies = when (selectedType) {
             "Género" -> db.getAllPelicula(genero = selectedOption)
             "Prioridad" -> db.getAllPelicula(prioridad = selectedOption)
@@ -140,6 +151,22 @@ class InicioActivity : AppCompatActivity() {
         }
         peliculaAdapter.resetData(filteredMovies) // Actualiza el adaptador con los datos filtrados
     }
+
+    //Método para aplicar el filtro actual cuando se refresque la lista
+    private fun refreshFilteredMovies() {
+        if (currentFilterType != null && currentFilterOption != null) {
+            applyFilter(currentFilterOption!!)
+        } else {
+            showAllMovies() // Si no hay filtro, muestra todos los datos
+        }
+    }
+
+    // Método para refrescar y mostrar toda la lista de películas
+    private fun showAllMovies() {
+        val updatedMovies = db.getAllPelicula() // Obtén los datos actualizados desde la base de datos
+        peliculaAdapter.resetData(updatedMovies) // Actualiza el adaptador con los nuevos datos
+    }
+
 
     // Configura el botón para agregar una nueva película
     private fun setupAddButton() {
@@ -157,15 +184,17 @@ class InicioActivity : AppCompatActivity() {
     // Método llamado cuando la actividad se reanuda
     override fun onResume() {
         super.onResume()
-        refreshMovieList() // Refresca la lista de películas
+        // Refresca la lista de películas al reanudar la actividad
+        refreshFilteredMovies()
     }
 
-    // Refresca la lista de películas al obtener los datos más recientes de la base de datos
+    // Refresca la lista de películas según los datos actuales en la base de datos
+    // Se actualizo la forma en la que se aplicaria este metodo, ahora es innecesario pero no se borrara
     private fun refreshMovieList() {
         peliculasList.apply {
             clear()
-            addAll(db.getAllPelicula()) // Agrega las películas actualizadas
+            addAll(db.getAllPelicula()) // Obtén todos los datos actualizados
         }
-        peliculaAdapter.notifyDataSetChanged() // Notifica los cambios al adaptador
+        peliculaAdapter.notifyDataSetChanged() // Notifica cambios al adaptador
     }
 }

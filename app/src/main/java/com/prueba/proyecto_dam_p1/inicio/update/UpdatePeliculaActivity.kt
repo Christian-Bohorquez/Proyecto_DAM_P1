@@ -140,7 +140,7 @@ class UpdatePeliculaActivity : AppCompatActivity() {
             title = title,
             genero = genero,
             prioridad = prioridad,
-            fecha = fecha, // Puede ser null si el usuario no ingresó nada
+            fecha = fecha,
             descripcion = descripcion,
             imagen = imageBytes
         )
